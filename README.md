@@ -1,2 +1,2 @@
 # SendMail
- - EM DESENVOLVIMENTOS para usar ! 
+ - EM DESENVOLVIMENTO para usar ! 
