@@ -39,7 +39,7 @@ class Mensagem
             
             if(!self::validaEmail($this->para))
             {
-                return [];
+                return [false, 'error'];
             }
         }
 
@@ -60,9 +60,9 @@ class Mensagem
                 'codigo_status' => 4,
                 'descricao_status' => 'Email inválido!'
             ];
-            
-            header("Location: ../index.php?status=".$this->status['codigo_status']."&msg=".$this->status['descricao_status']);
 
+            header("Location: ../index.php?status=".$this->status['codigo_status']."&msg=".$this->status['descricao_status']);
+            return;
         }
         
         if($this->mensagemValida()){
@@ -75,16 +75,16 @@ class Mensagem
                 $mail->isSMTP();                                            //Send using SMTP
                 $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
                 $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                $mail->Username   = 'pierri95@gmail.com';                     //SMTP username
-                $mail->Password   = 'ffgicqhuzylnzsyw';                               //SMTP password
+                $mail->Username   = '';                     //SMTP username
+                $mail->Password   = '';                               //SMTP password
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
                 $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
             
                 //Recipients
-                $mail->setFrom('pierri95@gmail.com', 'Bruno Pierri');
+                $mail->setFrom('exemple@gmail.com', 'Bruno Pierri');
                 $mail->addAddress($this->para);     //Add a recipient
-                $mail->addAddress('pierri95@gmail.com');               //Name is optional
-                $mail->addReplyTo('pierri95@gmail.com', 'Information');
+                $mail->addAddress('exemple@gmail.com');               //Name is optional
+                $mail->addReplyTo('exemple@gmail.com', 'Information');
                 // $mail->addCC('cc@example.com');
                 // $mail->addBCC('bcc@example.com');
             
@@ -109,7 +109,7 @@ class Mensagem
 
                 $this->status = [
                     'codigo_status' => 2,
-                    'descricao_status' => 'Não foi possível enviar este e-mail!!! Tente novamente mais tarde.'.$mail->ErrorInfo
+                    'descricao_status' => 'Não foi possível enviar este e-mail!!! Tente novamente mais tarde. '.$mail->ErrorInfo
                 ];
                 
                 header("Location: ../index.php?status=".$this->status['codigo_status']."&msg=".$this->status['descricao_status']);
